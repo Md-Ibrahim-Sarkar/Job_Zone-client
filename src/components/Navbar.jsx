@@ -7,9 +7,11 @@ const Navbar = () => {
   return (
     <div className="navbar bg-base-100 shadow-sm container px-4 mx-auto ">
       <div className="flex-1">
-        <Link to="/" className="flex gap-2 items-center">
-          <img className="w-auto h-7" src={logo} alt="" />
-          <span className="font-bold uppercase">JobZone</span>
+        <Link to="/" className="">
+          <span className="relative flex  gap-2 items-center">
+            <img className="w-24" src={logo} alt="" />
+            <span className="font-bold absolute left-[85px] top-[50%] translate-y-[-50%] uppercase">Zone</span>
+          </span>
         </Link>
       </div>
       <div className="flex-none">

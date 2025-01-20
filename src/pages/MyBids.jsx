@@ -1,9 +1,38 @@
+import axios from "axios";
 import { format } from "date-fns";
+import { useState } from "react";
 import { useLoaderData } from "react-router-dom"
 
 const MyBids = () => {
   const { data } = useLoaderData()
 
+  const [bids, setBids] = useState(data);
+
+  const handleStatus = async (id, prevStatus, status) => {
+
+    // if (status !== 'In Progress') {
+    //   return console.log('Request not allowed');
+
+    // }
+
+    try {
+      const { data } = await axios.patch(`${import.meta.env.VITE_API_URL}/bids/${id}`, { status })
+      if (data.matchedCount > 0) {
+        const updatedBids = bids.map((bid) =>
+          bid._id === id ? { ...bid, status } : bid
+        );
+        setBids(updatedBids);
+
+      }
+
+    } catch (error) {
+      console.log(error);
+
+    }
+    console.log(id, prevStatus, status);
+
+
+  }
   return (
     <section className='container px-4 mx-auto my-12'>
       <div className='flex items-center gap-x-3'>
@@ -66,7 +95,7 @@ const MyBids = () => {
                   </tr>
                 </thead>
                 <tbody className='bg-white divide-y divide-gray-200 '>
-                  {data.map(item => <tr key={item._id}>
+                  {bids.map(item => <tr key={item._id}>
                     <td className='px-4 py-4 text-sm text-gray-500  whitespace-nowrap'>
                       {item.job_title}
                     </td>
@@ -99,6 +128,8 @@ const MyBids = () => {
                     </td>
                     <td className='px-4 py-4 text-sm whitespace-nowrap'>
                       <button
+                        disabled={item.status === 'completed'}
+                        onClick={() => handleStatus(item._id, item.status, 'completed')}
                         title='Mark Complete'
                         className='text-gray-500 transition-colors duration-200   hover:text-red-500 focus:outline-none disabled:cursor-not-allowed'
                       >

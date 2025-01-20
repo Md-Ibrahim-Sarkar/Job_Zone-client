@@ -11,6 +11,7 @@ import {
   updateProfile,
 } from 'firebase/auth'
 import { app } from '../firebase/firebase.config'
+import axios from 'axios'
 
 export const AuthContext = createContext(null)
 const auth = getAuth(app)
@@ -50,8 +51,41 @@ const AuthProvider = ({ children }) => {
   // onAuthStateChange
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, currentUser => {
-      setUser(currentUser)
-      setLoading(false)
+
+      if (currentUser?.email) {
+        setUser(currentUser);
+
+        //  jwt token create
+        axios.post(`${import.meta.env.VITE_API_URL}/jwt`, {
+          email: currentUser.email,
+        }, { withCredentials: true })
+          .then(res => {
+            console.log(res.data);
+          })
+          .catch(err => {
+            console.error('Error creating JWT token:', err);
+          });
+
+        setLoading(false);
+      } else {
+
+        axios.get(`${import.meta.env.VITE_API_URL}/clear-cookie`, {
+          withCredentials: true
+        })
+          .then(res => {
+            console.log(res.data); // Logs the server's response message
+          })
+          .catch(err => {
+            console.error('Error clearing the cookie:', err);
+          });
+
+
+        setUser(null);
+        setLoading(false);
+      }
+
+
+
     })
     return () => {
       return unsubscribe()

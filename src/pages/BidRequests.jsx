@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query"
 import axios from "axios"
-import { useEffect, useState } from "react"
 import useAuth from "../hooks/useAuth"
 
 const BidRequests = () => {
@@ -8,7 +7,7 @@ const BidRequests = () => {
   const user = useAuth()
 
 
-  const { data: bidsRequest = [] } = useQuery({
+  const { data: bidsRequest = [], refetch } = useQuery({
     queryKey: ['bidsRequest'],
     queryFn: async () => {
       const response = await axios(`${import.meta.env.VITE_API_URL}/bids-request/${user.user.email}`)
@@ -17,7 +16,23 @@ const BidRequests = () => {
   })
 
 
-  console.log(bidsRequest);
+  const handleStatus = async (id, prevStatus, status) => {
+
+    if (status == prevStatus || status == 'completed') {
+      return console.log('Request not allowed')
+
+    }
+    try {
+      const { data } = await axios.patch(`${import.meta.env.VITE_API_URL}/bids/${id}`, { status })
+      if (data.matchedCount > 0) {
+        refetch()
+      }
+
+    } catch (error) {
+      console.log(error);
+
+    }
+  }
 
 
 
@@ -122,7 +137,7 @@ const BidRequests = () => {
                       </td>
                       <td className='px-4 py-4 text-sm whitespace-nowrap'>
                         <div className='flex items-center gap-x-6'>
-                          <button className='disabled:cursor-not-allowed text-gray-500 transition-colors duration-200   hover:text-red-500 focus:outline-none'>
+                          <button disabled={bids.status === 'completed'} onClick={() => handleStatus(bids._id, bids.status, 'In progress')} className='disabled:cursor-not-allowed text-gray-500 transition-colors duration-200   hover:text-red-500 focus:outline-none'>
                             <svg
                               xmlns='http://www.w3.org/2000/svg'
                               fill='none'
@@ -139,7 +154,7 @@ const BidRequests = () => {
                             </svg>
                           </button>
 
-                          <button className='disabled:cursor-not-allowed text-gray-500 transition-colors duration-200   hover:text-yellow-500 focus:outline-none'>
+                          <button disabled={bids.status === 'completed'} onClick={() => handleStatus(bids._id, bids.status, 'Rejected')} className='disabled:cursor-not-allowed text-gray-500 transition-colors duration-200   hover:text-yellow-500 focus:outline-none'>
                             <svg
                               xmlns='http://www.w3.org/2000/svg'
                               fill='none'

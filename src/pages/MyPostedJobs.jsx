@@ -4,14 +4,16 @@ import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import { format } from 'date-fns'
 import Swal from 'sweetalert2'
+import useAxios from '../hooks/useAxiosSecure'
 
 
 const MyPostedJobs = () => {
   const user = useAuth()
+  const axiosSecure = useAxios()
   const { data: jobs = [], refetch } = useQuery({
     queryKey: ['jobs', 'email'],
     queryFn: async () => {
-      const response = await axios(`${import.meta.env.VITE_API_URL}/jobs/${user?.user?.email}`)
+      const response = await axiosSecure(`/jobs/${user?.user?.email}`)
       return response.data
     },
   })

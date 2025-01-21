@@ -1,10 +1,11 @@
-import axios from "axios";
 import { format } from "date-fns";
 import { useState } from "react";
 import { useLoaderData } from "react-router-dom"
+import useAxios from "../hooks/useAxiosSecure";
 
 const MyBids = () => {
   const { data } = useLoaderData()
+  const axiosSecure = useAxios()
 
   const [bids, setBids] = useState(data);
 
@@ -16,7 +17,7 @@ const MyBids = () => {
     // }
 
     try {
-      const { data } = await axios.patch(`${import.meta.env.VITE_API_URL}/bids/${id}`, { status })
+      const { data } = await axiosSecure.patch(`/bids/${id}`, { status })
       if (data.matchedCount > 0) {
         const updatedBids = bids.map((bid) =>
           bid._id === id ? { ...bid, status } : bid

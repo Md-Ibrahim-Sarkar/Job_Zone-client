@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { createContext, useEffect, useState } from 'react'
 import {
@@ -60,7 +61,7 @@ const AuthProvider = ({ children }) => {
           email: currentUser.email,
         }, { withCredentials: true })
           .then(res => {
-            console.log(res.data);
+
           })
           .catch(err => {
             console.error('Error creating JWT token:', err);

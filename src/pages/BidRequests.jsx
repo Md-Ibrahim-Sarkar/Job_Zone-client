@@ -1,16 +1,18 @@
 import { useQuery } from "@tanstack/react-query"
 import axios from "axios"
 import useAuth from "../hooks/useAuth"
+import useAxios from "../hooks/useAxiosSecure"
 
 const BidRequests = () => {
 
   const user = useAuth()
+  const axiosSecure = useAxios()
 
 
   const { data: bidsRequest = [], refetch } = useQuery({
     queryKey: ['bidsRequest'],
     queryFn: async () => {
-      const response = await axios(`${import.meta.env.VITE_API_URL}/bids-request/${user.user.email}`)
+      const response = await axiosSecure(`/bids-request/${user.user.email}`)
       return response.data
     }
   })

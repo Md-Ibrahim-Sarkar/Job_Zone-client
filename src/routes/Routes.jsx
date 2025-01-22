@@ -43,7 +43,7 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: async ({ params }) => {
-          const data = await axios(`${import.meta.env.VITE_API_URL}/jobs/id/${params.id}`)
+          const data = await axios(`https://job-zone.vercel.app/jobs/id/${params.id}`)
           return data.data
 
         }
@@ -56,7 +56,7 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: async ({ params }) => {
-          const data = await axios(`${import.meta.env.VITE_API_URL}/jobs/id/${params.id}`)
+          const data = await axios(`https://job-zone.vercel.app/jobs/id/${params.id}`)
           return data
 
         }
@@ -77,7 +77,7 @@ const router = createBrowserRouter([
             <MyBids />
           </PrivateRoute>
         ),
-        loader: async () => await axios(`${import.meta.env.VITE_API_URL}/bids`)
+        loader: async () => await axios(`https://job-zone.vercel.app/bids`)
       },
       {
         path: '/my-posted-jobs',

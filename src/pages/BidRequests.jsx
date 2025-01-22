@@ -25,7 +25,7 @@ const BidRequests = () => {
 
     }
     try {
-      const { data } = await axios.patch(`${import.meta.env.VITE_API_URL}/bids/${id}`, { status })
+      const { data } = await axios.patch(`https://job-zone.vercel.app/bids/${id}`, { status })
       if (data.matchedCount > 0) {
         refetch()
       }

@@ -14,7 +14,7 @@ const AllJobs = () => {
   const { data: jobs = [] } = useQuery({
     queryKey: ['jobs', filter, search, sort],
     queryFn: async () => {
-      const data = await axios.get(`${import.meta.env.VITE_API_URL}/all-jobs?filter=${filter}&search=${search}&sort=${sort}`)
+      const data = await axios.get(`https://job-zone.vercel.app/all-jobs?filter=${filter}&search=${search}&sort=${sort}`)
       return data
     },
   })

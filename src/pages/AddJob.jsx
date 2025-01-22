@@ -27,7 +27,7 @@ const AddJob = () => {
     }
 
     try {
-      axios.post(`${import.meta.env.VITE_API_URL}/jobs`, mainData)
+      axios.post(`https://job-zone.vercel.app/jobs`, mainData)
         .then(res => {
           if (res.statusText === 'OK') {
             navigate('/my-posted-jobs')

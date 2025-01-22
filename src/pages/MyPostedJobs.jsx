@@ -32,7 +32,7 @@ const MyPostedJobs = () => {
 
       if (result.isConfirmed) {
 
-        const { data } = await axios.delete(`${import.meta.env.VITE_API_URL}/jobs/${id}`)
+        const { data } = await axios.delete(`https://job-zone.vercel.app/jobs/${id}`)
         if (data.deletedCount > 0) {
           refetch()
           Swal.fire(

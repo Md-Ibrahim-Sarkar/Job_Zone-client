@@ -6,7 +6,7 @@ function useJobs() {
   const { data: jobs = [] } = useQuery({
     queryKey: ['jobs'],
     queryFn: async () => {
-      const data = await axios.get(`${import.meta.env.VITE_API_URL}/jobs`)
+      const data = await axios.get(`https://job-zone.vercel.app/jobs`)
       return data
     },
   })

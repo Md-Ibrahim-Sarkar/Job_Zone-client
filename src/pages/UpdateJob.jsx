@@ -21,7 +21,7 @@ const UpdateJob = () => {
     const formData = Object.fromEntries(form)
 
     try {
-      axios.put(`${import.meta.env.VITE_API_URL}/jobs/${data?._id}`, formData)
+      axios.put(`https://job-zone.vercel.app/jobs/${data?._id}`, formData)
         .then(res => {
           if (res.data.modifiedCount > 0) {
             navigate(-1)

@@ -69,7 +69,7 @@ const JobDetails = () => {
 
 
 
-    fetch(`${import.meta.env.VITE_API_URL}/bids`, {
+    fetch(`https://job-zone.vercel.app/bids`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

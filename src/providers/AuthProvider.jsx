@@ -57,7 +57,7 @@ const AuthProvider = ({ children }) => {
         setUser(currentUser);
 
         //  jwt token create
-        axios.post(`${import.meta.env.VITE_API_URL}/jwt`, {
+        axios.post(`https://job-zone.vercel.app/jwt`, {
           email: currentUser.email,
         }, { withCredentials: true })
           .then(res => {
@@ -70,7 +70,7 @@ const AuthProvider = ({ children }) => {
         setLoading(false);
       } else {
 
-        axios.get(`${import.meta.env.VITE_API_URL}/clear-cookie`, {
+        axios.get(`https://job-zone.vercel.app/clear-cookie`, {
           withCredentials: true
         })
           .then(res => {

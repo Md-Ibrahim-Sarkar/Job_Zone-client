@@ -29,7 +29,7 @@ const AddJob = () => {
     try {
       axios.post(`https://job-zone.vercel.app/jobs`, mainData)
         .then(res => {
-          if (res.statusText === 'OK') {
+          if (res.status === 200) {
             navigate('/my-posted-jobs')
             e.target.reset()
             Swal.fire({

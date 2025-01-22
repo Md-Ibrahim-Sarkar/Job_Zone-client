@@ -1,27 +1,33 @@
-import axios from "axios"
-import useAuth from "./useAuth"
-
+import axios from "axios";
+import useAuth from "./useAuth";
+import { useEffect } from "react";
 
 const axiosSecure = axios.create({
   baseURL: `https://job-zone.vercel.app`,
   withCredentials: true,
-})
-
+});
 
 const useAxios = () => {
-  const { logOut } = useAuth()
-  axiosSecure.interceptors.response.use((response) => {
-    return response;
-  },
-    (error) => {
-      console.log(error);
-      if (error.status === 403) {
-        logOut()
+  const { logOut } = useAuth();
+
+  useEffect(() => {
+    const interceptor = axiosSecure.interceptors.response.use(
+      (response) => response,
+      (error) => {
+        console.error(error);
+        if (error.response && error.response.status === 403) {
+          logOut();
+        }
+        return Promise.reject(error);
       }
-      return Promise.reject(error)
-    })
-  return axiosSecure
-}
+    );
 
+    return () => {
+      axiosSecure.interceptors.response.eject(interceptor);
+    };
+  }, [logOut]);
 
-export default useAxios
+  return axiosSecure;
+};
+
+export default useAxios;
